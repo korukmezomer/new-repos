@@ -8,6 +8,7 @@ classDiagram
         +datetime deletedAt
     }
 
+
     class Users {
         +string name
         +string email
