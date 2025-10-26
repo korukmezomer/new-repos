@@ -197,16 +197,12 @@ classDiagram
     BaseEntity <|-- AuditLogs
 
     %% RELATIONSHIPS
-    Users ||--o{ Projects : employer
-    Users ||--o{ Projects : freelancer
+    Users ||--o{ Projects
     Users ||--o{ Bids
     Users ||--o{ ProjectTasks
-    Users ||--o{ Transactions : payer
-    Users ||--o{ Transactions : receiver
-    Users ||--o{ Messages : sender
-    Users ||--o{ Messages : receiver
-    Users ||--o{ Reviews : fromUser
-    Users ||--o{ Reviews : toUser
+    Users ||--o{ Transactions
+    Users ||--o{ Messages
+    Users ||--o{ Reviews
     Users ||--o{ Notifications
     Users ||--o{ AuditLogs
     
@@ -217,7 +213,7 @@ classDiagram
     Projects ||--o{ Messages
     Projects ||--o{ Reviews
     Projects ||--o{ Attachments
-    Projects }o--|| Bids : accepts
+    Projects }o--|| Bids
     Projects }o--|| PaymentMethods
     
     Categories ||--o{ Projects
@@ -225,7 +221,7 @@ classDiagram
     Bids ||--o{ MileStonePayments
     
     ProjectTasks ||--o{ MileStonePayments
-    ProjectTasks }o--|| Users : assignedTo
+    ProjectTasks }o--|| Users
     
     MileStonePayments ||--o{ Transactions
     
