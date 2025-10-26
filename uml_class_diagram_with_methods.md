@@ -217,35 +217,32 @@ classDiagram
 
     %% RELATIONSHIPS - ONE TO MANY (1 to N)
     
-    Users ||--o{ Projects : creates_employer
-    Users ||--o{ Bids : places_freelancer
-    Users ||--o{ Messages : sends
-    Users ||--o{ Messages : receives
-    Users ||--o{ Reviews : writes
-    Users ||--o{ Reviews : receives_review
-    Users ||--o{ Transactions : pays
-    Users ||--o{ Transactions : receives_payment
-    Users ||--o{ Notifications : receives_notif
-    Users ||--o{ AuditLogs : performs_admin
+    Users "1" --> "*" Projects
+    Users "1" --> "*" Bids
+    Users "1" --> "*" Messages
+    Users "1" --> "*" Reviews
+    Users "1" --> "*" Transactions
+    Users "1" --> "*" Notifications
+    Users "1" --> "*" AuditLogs
     
-    Categories ||--o{ Projects : categorizes
+    Categories "1" --> "*" Projects
     
-    Projects ||--o{ Bids : receives
-    Projects ||--o{ Messages : discusses
-    Projects ||--o{ Reviews : gets_reviewed
-    Projects ||--o{ MileStonePayment : has_milestones
-    Projects ||--o{ Transactions : generates
-    Projects ||--o{ Attachments : has_files
+    Projects "1" --> "*" Bids
+    Projects "1" --> "*" Messages
+    Projects "1" --> "*" Reviews
+    Projects "1" --> "*" MileStonePayment
+    Projects "1" --> "*" Transactions
+    Projects "1" --> "*" Attachments
     
-    Bids ||--o{ MileStonePayment : defines_milestones
+    Bids "1" --> "*" MileStonePayment
     
-    MileStonePayment ||--o{ Transactions : creates
+    MileStonePayment "1" --> "*" Transactions
     
-    Messages ||--o{ Attachments : has_attachment
+    Messages "1" --> "*" Attachments
     
     %% RELATIONSHIPS - MANY TO ONE (OPTIONAL)
     
-    Projects }o--|| Bids : accepts_optional
+    Projects "*" --> "0..1" Bids
     
     %% SERVICE RELATIONSHIPS
     AdminService ..> Users : manages
