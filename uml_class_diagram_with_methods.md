@@ -197,35 +197,35 @@ classDiagram
     BaseEntity <|-- AuditLogs
 
     %% RELATIONSHIPS
-    Users ||--o{ Projects
-    Users ||--o{ Bids
-    Users ||--o{ ProjectTasks
-    Users ||--o{ Transactions
-    Users ||--o{ Messages
-    Users ||--o{ Reviews
-    Users ||--o{ Notifications
-    Users ||--o{ AuditLogs
+    Users "1" --> "*" Projects
+    Users "1" --> "*" Bids
+    Users "1" --> "*" ProjectTasks
+    Users "1" --> "*" Transactions
+    Users "1" --> "*" Messages
+    Users "1" --> "*" Reviews
+    Users "1" --> "*" Notifications
+    Users "1" --> "*" AuditLogs
     
-    Projects ||--o{ Bids
-    Projects ||--o{ ProjectTasks
-    Projects ||--o{ MileStonePayments
-    Projects ||--o{ Transactions
-    Projects ||--o{ Messages
-    Projects ||--o{ Reviews
-    Projects ||--o{ Attachments
-    Projects }o--|| Bids
-    Projects }o--|| PaymentMethods
+    Projects "1" --> "*" Bids
+    Projects "1" --> "*" ProjectTasks
+    Projects "1" --> "*" MileStonePayments
+    Projects "1" --> "*" Transactions
+    Projects "1" --> "*" Messages
+    Projects "1" --> "*" Reviews
+    Projects "1" --> "*" Attachments
+    Projects "*" --> "0..1" Bids
+    Projects "1" --> "1" PaymentMethods
     
-    Categories ||--o{ Projects
+    Categories "1" --> "*" Projects
     
-    Bids ||--o{ MileStonePayments
+    Bids "1" --> "*" MileStonePayments
     
-    ProjectTasks ||--o{ MileStonePayments
-    ProjectTasks }o--|| Users
+    ProjectTasks "1" --> "*" MileStonePayments
+    ProjectTasks "1" --> "1" Users
     
-    MileStonePayments ||--o{ Transactions
+    MileStonePayments "1" --> "*" Transactions
     
-    Messages ||--o{ Attachments
+    Messages "1" --> "*" Attachments
     
     AdminService ..> Users
     AdminService ..> Projects
