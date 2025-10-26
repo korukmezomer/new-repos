@@ -35,9 +35,9 @@ classDiagram
         +decimal budgetMin
         +decimal budgetMax
         +date deadline
-        +int employerId
-        +int acceptedBidId
-        +int categoryId
+        +int employerId *FK Users
+        +int acceptedBidId *FK Bids
+        +int categoryId *FK Categories
         +enum status
         +string attachment
         +int views
@@ -73,8 +73,8 @@ classDiagram
 
     class Bids {
         +int id
-        +int projectId
-        +int freelancerId
+        +int projectId *FK Projects
+        +int freelancerId *FK Users
         +decimal price
         +int durationDays
         +text coverLetter
@@ -91,8 +91,8 @@ classDiagram
 
     class MileStonePayment {
         +int id
-        +int projectId
-        +int bidId
+        +int projectId *FK Projects
+        +int bidId *FK Bids
         +string milestoneName
         +text description
         +decimal amount
@@ -112,9 +112,9 @@ classDiagram
 
     class Messages {
         +int id
-        +int senderId
-        +int receiverId
-        +int projectId
+        +int senderId *FK Users
+        +int receiverId *FK Users
+        +int projectId *FK Projects
         +text content
         +datetime dateSent
         +boolean isRead
@@ -130,9 +130,9 @@ classDiagram
 
     class Reviews {
         +int id
-        +int projectId
-        +int fromUserId
-        +int toUserId
+        +int projectId *FK Projects
+        +int fromUserId *FK Users
+        +int toUserId *FK Users
         +int rating
         +text comment
         +datetime dateGiven
@@ -147,10 +147,10 @@ classDiagram
 
     class Transactions {
         +int id
-        +int milestonePaymentId
-        +int projectId
-        +int payerId
-        +int receiverId
+        +int milestonePaymentId *FK MileStonePayment
+        +int projectId *FK Projects
+        +int payerId *FK Users
+        +int receiverId *FK Users
         +decimal amount
         +enum status
         +datetime paymentDate
@@ -166,7 +166,7 @@ classDiagram
 
     class Notifications {
         +int id
-        +int userId
+        +int userId *FK Users
         +string title
         +text message
         +boolean isRead
@@ -181,8 +181,8 @@ classDiagram
 
     class Attachments {
         +int id
-        +int projectId
-        +int messageId
+        +int projectId *FK Projects
+        +int messageId *FK Messages
         +string filePath
         +string fileType
         +datetime uploadedAt
@@ -196,7 +196,7 @@ classDiagram
 
     class AuditLogs {
         +int id
-        +int adminId
+        +int adminId *FK Users
         +string actionType
         +string entityType
         +int entityId
@@ -215,44 +215,45 @@ classDiagram
         +viewSystemStats()
     }
 
-    %% Associations - Users
-    Users "1" --> "N" Projects : employer
-    Users "1" --> "N" Projects : freelancer
-    Users "1" --> "N" Bids : freelancer
-    Users "1" --> "N" Messages : sender
-    Users "1" --> "N" Messages : receiver
-    Users "1" --> "N" Reviews : from_user
-    Users "1" --> "N" Reviews : to_user
-    Users "1" --> "N" Transactions : payer
-    Users "1" --> "N" Transactions : receiver
-    Users "1" --> "N" Notifications : recipient
-    Users "1" --> "N" AuditLogs : admin
-
-    %% Associations - Projects
-    Projects "1" --> "N" Bids
-    Projects "1" --> "1" Bids : accepted_bid
-    Projects "1" --> "N" Messages
-    Projects "1" --> "N" Reviews
-    Projects "1" --> "N" MileStonePayment
-    Projects "1" --> "N" Attachments
-    Projects "N" --> "1" Categories
-
-    %% Associations - Bids
-    Bids "1" --> "N" MileStonePayment
-
-    %% Associations - MileStonePayment
-    MileStonePayment "1" --> "N" Transactions
-
-    %% Associations - Messages
-    Messages "1" --> "N" Attachments
-
-    %% Admin service associations
-    AdminService ..> Users : manages
-    AdminService ..> Projects : manages
-    AdminService ..> Bids : monitors
-    AdminService ..> Messages : monitors
-    AdminService ..> Transactions : monitors
-    AdminService ..> Notifications : manages
-    AdminService ..> Categories : manages
-    AdminService ..> AuditLogs : logs
+    %% RELATIONSHIPS - ONE TO MANY (1 to N)
+    
+    Users ||--o{ Projects : "creates (employer)"
+    Users ||--o{ Bids : "places (freelancer)"
+    Users ||--o{ Messages : "sends"
+    Users ||--o{ Messages : "receives"
+    Users ||--o{ Reviews : "writes (fromUser)"
+    Users ||--o{ Reviews : "receives (toUser)"
+    Users ||--o{ Transactions : "pays (payer)"
+    Users ||--o{ Transactions : "receives (receiver)"
+    Users ||--o{ Notifications : "receives"
+    Users ||--o{ AuditLogs : "performs (admin)"
+    
+    Categories ||--o{ Projects : "categorizes"
+    
+    Projects ||--o{ Bids : "receives"
+    Projects ||--o{ Messages : "discusses"
+    Projects ||--o{ Reviews : "gets reviewed"
+    Projects ||--o{ MileStonePayment : "has milestones"
+    Projects ||--o{ Transactions : "generates"
+    Projects ||--o{ Attachments : "has files"
+    
+    Bids ||--o{ MileStonePayment : "defines milestones"
+    
+    MileStonePayment ||--o{ Transactions : "creates"
+    
+    Messages ||--o{ Attachments : "has"
+    
+    %% RELATIONSHIPS - MANY TO ONE (OPTIONAL)
+    
+    Projects }o--|| Bids : "accepts (acceptedBid - optional)"
+    
+    %% SERVICE RELATIONSHIPS
+    AdminService ..> Users : "manages"
+    AdminService ..> Projects : "monitors"
+    AdminService ..> Bids : "oversees"
+    AdminService ..> Messages : "supervises"
+    AdminService ..> Transactions : "tracks"
+    AdminService ..> Notifications : "sends"
+    AdminService ..> Categories : "maintains"
+    AdminService ..> AuditLogs : "creates"
 ```
