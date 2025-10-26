@@ -217,43 +217,43 @@ classDiagram
 
     %% RELATIONSHIPS - ONE TO MANY (1 to N)
     
-    Users ||--o{ Projects : "creates (employer)"
-    Users ||--o{ Bids : "places (freelancer)"
-    Users ||--o{ Messages : "sends"
-    Users ||--o{ Messages : "receives"
-    Users ||--o{ Reviews : "writes (fromUser)"
-    Users ||--o{ Reviews : "receives (toUser)"
-    Users ||--o{ Transactions : "pays (payer)"
-    Users ||--o{ Transactions : "receives (receiver)"
-    Users ||--o{ Notifications : "receives"
-    Users ||--o{ AuditLogs : "performs (admin)"
+    Users ||--o{ Projects : creates_employer
+    Users ||--o{ Bids : places_freelancer
+    Users ||--o{ Messages : sends
+    Users ||--o{ Messages : receives
+    Users ||--o{ Reviews : writes
+    Users ||--o{ Reviews : receives_review
+    Users ||--o{ Transactions : pays
+    Users ||--o{ Transactions : receives_payment
+    Users ||--o{ Notifications : receives_notif
+    Users ||--o{ AuditLogs : performs_admin
     
-    Categories ||--o{ Projects : "categorizes"
+    Categories ||--o{ Projects : categorizes
     
-    Projects ||--o{ Bids : "receives"
-    Projects ||--o{ Messages : "discusses"
-    Projects ||--o{ Reviews : "gets reviewed"
-    Projects ||--o{ MileStonePayment : "has milestones"
-    Projects ||--o{ Transactions : "generates"
-    Projects ||--o{ Attachments : "has files"
+    Projects ||--o{ Bids : receives
+    Projects ||--o{ Messages : discusses
+    Projects ||--o{ Reviews : gets_reviewed
+    Projects ||--o{ MileStonePayment : has_milestones
+    Projects ||--o{ Transactions : generates
+    Projects ||--o{ Attachments : has_files
     
-    Bids ||--o{ MileStonePayment : "defines milestones"
+    Bids ||--o{ MileStonePayment : defines_milestones
     
-    MileStonePayment ||--o{ Transactions : "creates"
+    MileStonePayment ||--o{ Transactions : creates
     
-    Messages ||--o{ Attachments : "has"
+    Messages ||--o{ Attachments : has_attachment
     
     %% RELATIONSHIPS - MANY TO ONE (OPTIONAL)
     
-    Projects }o--|| Bids : "accepts (acceptedBid - optional)"
+    Projects }o--|| Bids : accepts_optional
     
     %% SERVICE RELATIONSHIPS
-    AdminService ..> Users : "manages"
-    AdminService ..> Projects : "monitors"
-    AdminService ..> Bids : "oversees"
-    AdminService ..> Messages : "supervises"
-    AdminService ..> Transactions : "tracks"
-    AdminService ..> Notifications : "sends"
-    AdminService ..> Categories : "maintains"
-    AdminService ..> AuditLogs : "creates"
+    AdminService ..> Users : manages
+    AdminService ..> Projects : monitors
+    AdminService ..> Bids : oversees
+    AdminService ..> Messages : supervises
+    AdminService ..> Transactions : tracks
+    AdminService ..> Notifications : sends
+    AdminService ..> Categories : maintains
+    AdminService ..> AuditLogs : creates
 ```
