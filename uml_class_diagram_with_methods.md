@@ -209,14 +209,12 @@ classDiagram
     Projects "1" --> "*" Bids
     Projects "1" --> "*" ProjectTasks
     Projects "1" --> "*" MileStonePayments
-    Projects "1" --> "*" Transactions
     Projects "1" --> "*" Messages
     Projects "1" --> "*" Reviews
     Projects "1" --> "*" Attachments
-    Projects "*" --> "0..1" Bids
+    Projects "1" --> "1" Categories
     Projects "1" --> "1" PaymentMethods
-    
-    Categories "1" --> "*" Projects
+    Projects "0..1" --> "0..1" Bids
     
     Bids "1" --> "*" MileStonePayments
     
@@ -224,6 +222,7 @@ classDiagram
     ProjectTasks "1" --> "1" Users
     
     MileStonePayments "1" --> "*" Transactions
+    Transactions "1" --> "1" MileStonePayments
     
     Messages "1" --> "*" Attachments
     
