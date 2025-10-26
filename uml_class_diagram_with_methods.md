@@ -2,8 +2,16 @@
 
 ```mermaid
 classDiagram
-    class Users {
+    class BaseEntity {
+        <<abstract>>
         +int id
+        +datetime createdAt
+        +datetime updatedAt
+        +boolean isActive
+        +datetime deletedAt
+    }
+
+    class Users {
         +string name
         +string email
         +string password
@@ -15,10 +23,6 @@ classDiagram
         +int totalReviews
         +string location
         +boolean isVerified
-        +datetime createdAt
-        +datetime updatedAt
-        +boolean isActive
-        +datetime deletedAt
         +register(name, email, password)
         +login(email, password)
         +updateProfile(bio, skills, profileImage, location)
@@ -29,22 +33,18 @@ classDiagram
     }
 
     class Projects {
-        +int id
         +string title
         +text description
         +decimal budgetMin
         +decimal budgetMax
         +date deadline
         +int employerId *FK Users
+        +int freelancerId *FK Users
         +int acceptedBidId *FK Bids
         +int categoryId *FK Categories
         +enum status
         +string attachment
         +int views
-        +datetime createdAt
-        +datetime updatedAt
-        +boolean isActive
-        +datetime deletedAt
         +create(title, description, budgetMin, budgetMax, categoryId, deadline)
         +update(projectId, ...)
         +close(projectId)
@@ -58,13 +58,8 @@ classDiagram
     }
 
     class Categories {
-        +int id
         +string name
         +text description
-        +datetime createdAt
-        +datetime updatedAt
-        +boolean isActive
-        +datetime deletedAt
         +create(name, description)
         +update(id, name, description)
         +delete(id)
@@ -72,16 +67,12 @@ classDiagram
     }
 
     class Bids {
-        +int id
         +int projectId *FK Projects
         +int freelancerId *FK Users
         +decimal price
         +int durationDays
         +text coverLetter
         +enum status
-        +datetime createdAt
-        +datetime updatedAt
-        +datetime deletedAt
         +placeBid(projectId, price, durationDays, coverLetter)
         +accept(bidId)
         +reject(bidId)
@@ -90,7 +81,6 @@ classDiagram
     }
 
     class MileStonePayment {
-        +int id
         +int projectId *FK Projects
         +int bidId *FK Bids
         +string milestoneName
@@ -100,8 +90,6 @@ classDiagram
         +datetime dueDate
         +datetime completedDate
         +text completionNote
-        +datetime createdAt
-        +datetime updatedAt
         +create(projectId, bidId, milestoneName, description, amount, dueDate)
         +markCompleted(milestoneId, completionNote)
         +requestPayment(milestoneId)
@@ -111,16 +99,12 @@ classDiagram
     }
 
     class Messages {
-        +int id
         +int senderId *FK Users
         +int receiverId *FK Users
         +int projectId *FK Projects
         +text content
         +datetime dateSent
         +boolean isRead
-        +datetime createdAt
-        +datetime updatedAt
-        +datetime deletedAt
         +sendMessage(projectId, receiverId, content)
         +markRead(messageId)
         +delete(messageId)
@@ -129,16 +113,12 @@ classDiagram
     }
 
     class Reviews {
-        +int id
         +int projectId *FK Projects
         +int fromUserId *FK Users
         +int toUserId *FK Users
         +int rating
         +text comment
         +datetime dateGiven
-        +datetime createdAt
-        +datetime updatedAt
-        +datetime deletedAt
         +addReview(projectId, toUserId, rating, comment)
         +updateReview(reviewId, rating, comment)
         +deleteReview(reviewId)
@@ -146,7 +126,6 @@ classDiagram
     }
 
     class Transactions {
-        +int id
         +int milestonePaymentId *FK MileStonePayment
         +int projectId *FK Projects
         +int payerId *FK Users
@@ -155,8 +134,6 @@ classDiagram
         +enum status
         +datetime paymentDate
         +enum transactionType
-        +datetime createdAt
-        +datetime updatedAt
         +processPayment(milestonePaymentId, receiverId, amount)
         +refund(transactionId)
         +updateStatus(transactionId, status)
@@ -165,14 +142,11 @@ classDiagram
     }
 
     class Notifications {
-        +int id
         +int userId *FK Users
         +string title
         +text message
         +boolean isRead
         +datetime sentAt
-        +datetime createdAt
-        +datetime updatedAt
         +sendNotification(userId, title, message)
         +markRead(notificationId)
         +delete(notificationId)
@@ -180,14 +154,11 @@ classDiagram
     }
 
     class Attachments {
-        +int id
         +int projectId *FK Projects
         +int messageId *FK Messages
         +string filePath
         +string fileType
         +datetime uploadedAt
-        +datetime createdAt
-        +datetime deletedAt
         +uploadFile(projectId, file)
         +download(attachmentId)
         +deleteAttachment(attachmentId)
@@ -195,14 +166,12 @@ classDiagram
     }
 
     class AuditLogs {
-        +int id
         +int adminId *FK Users
         +string actionType
         +string entityType
         +int entityId
         +text details
         +datetime actionDate
-        +datetime createdAt
         +log(adminId, actionType, entityType, entityId, details)
         +list(filter)
     }
@@ -215,9 +184,23 @@ classDiagram
         +viewSystemStats()
     }
 
+    %% INHERITANCE - BaseEntity inheritance
+    BaseEntity <|-- Users
+    BaseEntity <|-- Projects
+    BaseEntity <|-- Categories
+    BaseEntity <|-- Bids
+    BaseEntity <|-- MileStonePayment
+    BaseEntity <|-- Messages
+    BaseEntity <|-- Reviews
+    BaseEntity <|-- Transactions
+    BaseEntity <|-- Notifications
+    BaseEntity <|-- Attachments
+    BaseEntity <|-- AuditLogs
+
     %% RELATIONSHIPS - ONE TO MANY (1 to N)
     
-    Users "1" --> "*" Projects
+    Users "1" --> "*" Projects : employer
+    Users "1" --> "*" Projects : freelancer
     Users "1" --> "*" Bids
     Users "1" --> "*" Messages
     Users "1" --> "*" Reviews
@@ -242,7 +225,7 @@ classDiagram
     
     %% RELATIONSHIPS - MANY TO ONE (OPTIONAL)
     
-    Projects "*" --> "0..1" Bids
+    Projects "*" --> "0..1" Bids : accepts
     
     %% SERVICE RELATIONSHIPS
     AdminService ..> Users : manages
