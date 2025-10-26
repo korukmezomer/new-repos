@@ -2,6 +2,15 @@
 
 ```mermaid
 classDiagram
+    class BaseEntity {
+        <<abstract>>
+        +int id
+        +datetime createdAt
+        +datetime updatedAt
+        +boolean isActive
+        +datetime deletedAt
+    }
+
     class Users {
         +string name
         +string email
@@ -170,15 +179,6 @@ classDiagram
         +deactivateUser()
         +viewSystemStats()
         +manageCategories()
-    }
-
-    class BaseEntity {
-        <<abstract>>
-        +int id
-        +datetime createdAt
-        +datetime updatedAt
-        +boolean isActive
-        +datetime deletedAt
     }
 
     %% INHERITANCE
