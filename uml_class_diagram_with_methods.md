@@ -1,4 +1,4 @@
-# UML Sınıf Diyagramı (Metodlarla) - Freelancer Platformu
+# UML Sınıf Diyagramı - Freelancer Platformu
 
 ```mermaid
 classDiagram
@@ -23,13 +23,11 @@ classDiagram
         +int totalReviews
         +string location
         +boolean isVerified
-        +register(name, email, password)
-        +login(email, password)
-        +updateProfile(bio, skills, profileImage, location)
-        +verifyEmail(token)
-        +resetPassword(email)
-        +changePassword(oldPwd, newPwd)
-        +recalcRating(userId)
+        +decimal balance
+        +register()
+        +login()
+        +updateProfile()
+        +recalcRating()
     }
 
     class Projects {
@@ -38,202 +36,202 @@ classDiagram
         +decimal budgetMin
         +decimal budgetMax
         +date deadline
-        +int employerId *FK Users
-        +int freelancerId *FK Users
-        +int acceptedBidId *FK Bids
-        +int categoryId *FK Categories
         +enum status
         +string attachment
         +int views
-        +create(title, description, budgetMin, budgetMax, categoryId, deadline)
-        +update(projectId, ...)
-        +close(projectId)
-        +cancel(projectId)
-        +updateStatus(projectId, status)
-        +incrementViews(projectId)
-        +attachFile(projectId, filePath, type)
-        +search(query, filters)
-        +browse(page, sort)
-        +assignFreelancer(bidId)
+        +int employerId *FK
+        +int freelancerId *FK
+        +int acceptedBidId *FK
+        +int categoryId *FK
+        +int paymentMethodId *FK
+        +create()
+        +updateStatus()
+        +assignFreelancer()
     }
 
     class Categories {
         +string name
         +text description
-        +create(name, description)
-        +update(id, name, description)
-        +delete(id)
-        +list()
+        +create()
+        +update()
     }
 
     class Bids {
-        +int projectId *FK Projects
-        +int freelancerId *FK Users
         +decimal price
         +int durationDays
         +text coverLetter
         +enum status
-        +placeBid(projectId, price, durationDays, coverLetter)
-        +accept(bidId)
-        +reject(bidId)
-        +withdraw(bidId)
-        +listByProject(projectId)
+        +int projectId *FK
+        +int freelancerId *FK
+        +placeBid()
+        +accept()
+        +reject()
     }
 
-    class MileStonePayment {
-        +int projectId *FK Projects
-        +int bidId *FK Bids
+    class ProjectTasks {
+        +string title
+        +text description
+        +enum status
+        +int priority
+        +datetime dueDate
+        +datetime completedDate
+        +int projectId *FK
+        +int assignedTo *FK
+        +create()
+        +updateStatus()
+        +assignTask()
+        +completeTask()
+    }
+
+    class PaymentMethods {
+        +string name
+        +text description
+        +enum type
+        +boolean isActive
+        +decimal feePercentage
+        +create()
+        +update()
+    }
+
+    class MileStonePayments {
         +string milestoneName
         +text description
         +decimal amount
         +enum status
+        +int sequence
         +datetime dueDate
         +datetime completedDate
         +text completionNote
-        +create(projectId, bidId, milestoneName, description, amount, dueDate)
-        +markCompleted(milestoneId, completionNote)
-        +requestPayment(milestoneId)
-        +processPayment(milestoneId)
-        +updateStatus(milestoneId, status)
-        +listByProject(projectId)
-    }
-
-    class Messages {
-        +int senderId *FK Users
-        +int receiverId *FK Users
-        +int projectId *FK Projects
-        +text content
-        +datetime dateSent
-        +boolean isRead
-        +sendMessage(projectId, receiverId, content)
-        +markRead(messageId)
-        +delete(messageId)
-        +history(projectId)
-        +addAttachment(messageId, filePath)
-    }
-
-    class Reviews {
-        +int projectId *FK Projects
-        +int fromUserId *FK Users
-        +int toUserId *FK Users
-        +int rating
-        +text comment
-        +datetime dateGiven
-        +addReview(projectId, toUserId, rating, comment)
-        +updateReview(reviewId, rating, comment)
-        +deleteReview(reviewId)
-        +listByUser(userId)
+        +int projectId *FK
+        +int taskId *FK
+        +create()
+        +markCompleted()
+        +requestPayment()
     }
 
     class Transactions {
-        +int milestonePaymentId *FK MileStonePayment
-        +int projectId *FK Projects
-        +int payerId *FK Users
-        +int receiverId *FK Users
         +decimal amount
         +enum status
-        +datetime paymentDate
         +enum transactionType
-        +processPayment(milestonePaymentId, receiverId, amount)
-        +refund(transactionId)
-        +updateStatus(transactionId, status)
-        +listByProject(projectId)
-        +calculateCommission(amount)
+        +datetime paymentDate
+        +string transactionRef
+        +int milestonePaymentId *FK
+        +int projectId *FK
+        +int payerId *FK
+        +int receiverId *FK
+        +processPayment()
+        +refund()
+    }
+
+    class Messages {
+        +text content
+        +boolean isRead
+        +datetime dateSent
+        +int senderId *FK
+        +int receiverId *FK
+        +int projectId *FK
+        +sendMessage()
+        +markRead()
+    }
+
+    class Reviews {
+        +int rating
+        +text comment
+        +datetime dateGiven
+        +int projectId *FK
+        +int fromUserId *FK
+        +int toUserId *FK
+        +addReview()
+        +updateReview()
     }
 
     class Notifications {
-        +int userId *FK Users
         +string title
         +text message
         +boolean isRead
         +datetime sentAt
-        +sendNotification(userId, title, message)
-        +markRead(notificationId)
-        +delete(notificationId)
-        +listByUser(userId)
+        +int userId *FK
+        +sendNotification()
+        +markRead()
     }
 
     class Attachments {
-        +int projectId *FK Projects
-        +int messageId *FK Messages
         +string filePath
         +string fileType
+        +string fileName
         +datetime uploadedAt
-        +uploadFile(projectId, file)
-        +download(attachmentId)
-        +deleteAttachment(attachmentId)
-        +listByProject(projectId)
+        +int projectId *FK
+        +int messageId *FK
+        +uploadFile()
+        +download()
     }
 
     class AuditLogs {
-        +int adminId *FK Users
         +string actionType
         +string entityType
-        +int entityId
         +text details
         +datetime actionDate
-        +log(adminId, actionType, entityType, entityId, details)
-        +list(filter)
+        +int adminId *FK
+        +log()
     }
 
     class AdminService {
-        +deactivateUser(userId)
-        +activateUser(userId)
-        +removeProject(projectId)
-        +reviewReport(reportId)
+        +deactivateUser()
         +viewSystemStats()
+        +manageCategories()
     }
 
-    %% INHERITANCE - BaseEntity inheritance
+    %% INHERITANCE
     BaseEntity <|-- Users
     BaseEntity <|-- Projects
     BaseEntity <|-- Categories
     BaseEntity <|-- Bids
-    BaseEntity <|-- MileStonePayment
+    BaseEntity <|-- ProjectTasks
+    BaseEntity <|-- PaymentMethods
+    BaseEntity <|-- MileStonePayments
+    BaseEntity <|-- Transactions
     BaseEntity <|-- Messages
     BaseEntity <|-- Reviews
-    BaseEntity <|-- Transactions
     BaseEntity <|-- Notifications
     BaseEntity <|-- Attachments
     BaseEntity <|-- AuditLogs
 
-    %% RELATIONSHIPS - ONE TO MANY (1 to N)
+    %% RELATIONSHIPS
+    Users ||--o{ Projects : employer
+    Users ||--o{ Projects : freelancer
+    Users ||--o{ Bids
+    Users ||--o{ ProjectTasks
+    Users ||--o{ Transactions : payer
+    Users ||--o{ Transactions : receiver
+    Users ||--o{ Messages : sender
+    Users ||--o{ Messages : receiver
+    Users ||--o{ Reviews : fromUser
+    Users ||--o{ Reviews : toUser
+    Users ||--o{ Notifications
+    Users ||--o{ AuditLogs
     
-    Users "1" --> "*" Projects : employer
-    Users "1" --> "*" Projects : freelancer
-    Users "1" --> "*" Bids
-    Users "1" --> "*" Messages
-    Users "1" --> "*" Reviews
-    Users "1" --> "*" Transactions
-    Users "1" --> "*" Notifications
-    Users "1" --> "*" AuditLogs
+    Projects ||--o{ Bids
+    Projects ||--o{ ProjectTasks
+    Projects ||--o{ MileStonePayments
+    Projects ||--o{ Transactions
+    Projects ||--o{ Messages
+    Projects ||--o{ Reviews
+    Projects ||--o{ Attachments
+    Projects }o--|| Bids : accepts
+    Projects }o--|| PaymentMethods
     
-    Categories "1" --> "*" Projects
+    Categories ||--o{ Projects
     
-    Projects "1" --> "*" Bids
-    Projects "1" --> "*" Messages
-    Projects "1" --> "*" Reviews
-    Projects "1" --> "*" MileStonePayment
-    Projects "1" --> "*" Transactions
-    Projects "1" --> "*" Attachments
+    Bids ||--o{ MileStonePayments
     
-    Bids "1" --> "*" MileStonePayment
+    ProjectTasks ||--o{ MileStonePayments
+    ProjectTasks }o--|| Users : assignedTo
     
-    MileStonePayment "1" --> "*" Transactions
+    MileStonePayments ||--o{ Transactions
     
-    Messages "1" --> "*" Attachments
+    Messages ||--o{ Attachments
     
-    %% RELATIONSHIPS - MANY TO ONE (OPTIONAL)
-    
-    Projects "*" --> "0..1" Bids : accepts
-    
-    %% SERVICE RELATIONSHIPS
-    AdminService ..> Users : manages
-    AdminService ..> Projects : monitors
-    AdminService ..> Bids : oversees
-    AdminService ..> Messages : supervises
-    AdminService ..> Transactions : tracks
-    AdminService ..> Notifications : sends
-    AdminService ..> Categories : maintains
-    AdminService ..> AuditLogs : creates
+    AdminService ..> Users
+    AdminService ..> Projects
+    AdminService ..> Categories
 ```
