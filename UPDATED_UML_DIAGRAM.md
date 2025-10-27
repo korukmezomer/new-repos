@@ -260,42 +260,42 @@ classDiagram
     %% FREELANCER PLATFORM BUSINESS RELATIONSHIPS WITH CARDINALITY
     
     %% User Relationships (1:n)
-    User --> Project : "1:n"
-    User --> Bid : "1:n"
-    User --> ProjectTask : "1:n"
-    User --> Transaction : "1:n"
-    User --> Message : "1:n"
-    User --> Notification : "1:n"
-    User --> Review : "1:n"
+    User --> Project : 1:n
+    User --> Bid : 1:n
+    User --> ProjectTask : 1:n
+    User --> Transaction : 1:n
+    User --> Message : 1:n
+    User --> Notification : 1:n
+    User --> Review : 1:n
     
     %% Project Relationships
-    Project --> Bid : "1:n"
-    Project --> ProjectTask : "1:n"
-    Project --> Message : "1:n"
-    Project --> Review : "1:n"
-    Project --> Attachment : "1:n"
-    Project --> Transaction : "1:n"
-    Project --> Category : "n:1"
-    Project --> PaymentMethod : "n:1"
-    Project --> User : "n:1"
+    Project --> Bid : 1:n
+    Project --> ProjectTask : 1:n
+    Project --> Message : 1:n
+    Project --> Review : 1:n
+    Project --> Attachment : 1:n
+    Project --> Transaction : 1:n
+    Project --> Category : n:1
+    Project --> PaymentMethod : n:1
+    Project --> User : n:1
     
     %% Task and Milestone Relationships
-    ProjectTask --> MilestonePayment : "1:n"
-    ProjectTask --> User : "n:1"
-    MilestonePayment --> Transaction : "1:n"
+    ProjectTask --> MilestonePayment : 1:n
+    ProjectTask --> User : n:1
+    MilestonePayment --> Transaction : 1:n
     
     %% Message Relationships
-    Message --> Attachment : "1:n"
-    Message --> Project : "n:1"
+    Message --> Attachment : 1:n
+    Message --> Project : n:1
     
     %% Review Relationships
-    Review --> Project : "n:1"
-    Review --> User : "n:1"
+    Review --> Project : n:1
+    Review --> User : n:1
     
     %% Admin Service Dependencies
-    AdminService ..> User : "manages"
-    AdminService ..> Project : "monitors"
-    AdminService ..> Category : "manages"
+    AdminService ..> User : manages
+    AdminService ..> Project : monitors
+    AdminService ..> Category : manages
 ```
 
 ## Sadeleştirme Değişiklikleri
