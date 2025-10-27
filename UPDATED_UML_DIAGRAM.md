@@ -260,42 +260,42 @@ classDiagram
     %% FREELANCER PLATFORM BUSINESS RELATIONSHIPS WITH CARDINALITY
     
     %% User Relationships (1:n)
-    User --> Project
-    User --> Bid
-    User --> ProjectTask
-    User --> Transaction
-    User --> Message
-    User --> Notification
-    User --> Review
+    User --> Project : "1:n"
+    User --> Bid : "1:n"
+    User --> ProjectTask : "1:n"
+    User --> Transaction : "1:n"
+    User --> Message : "1:n"
+    User --> Notification : "1:n"
+    User --> Review : "1:n"
     
     %% Project Relationships
-    Project --> Bid
-    Project --> ProjectTask
-    Project --> Message
-    Project --> Review
-    Project --> Attachment
-    Project --> Transaction
-    Project --> Category
-    Project --> PaymentMethod
-    Project --> User
+    Project --> Bid : "1:n"
+    Project --> ProjectTask : "1:n"
+    Project --> Message : "1:n"
+    Project --> Review : "1:n"
+    Project --> Attachment : "1:n"
+    Project --> Transaction : "1:n"
+    Project --> Category : "n:1"
+    Project --> PaymentMethod : "n:1"
+    Project --> User : "n:1"
     
     %% Task and Milestone Relationships
-    ProjectTask --> MilestonePayment
-    ProjectTask --> User
-    MilestonePayment --> Transaction
+    ProjectTask --> MilestonePayment : "1:n"
+    ProjectTask --> User : "n:1"
+    MilestonePayment --> Transaction : "1:n"
     
     %% Message Relationships
-    Message --> Attachment
-    Message --> Project
+    Message --> Attachment : "1:n"
+    Message --> Project : "n:1"
     
     %% Review Relationships
-    Review --> Project
-    Review --> User
+    Review --> Project : "n:1"
+    Review --> User : "n:1"
     
     %% Admin Service Dependencies
-    AdminService ..> User
-    AdminService ..> Project
-    AdminService ..> Category
+    AdminService ..> User : "manages"
+    AdminService ..> Project : "monitors"
+    AdminService ..> Category : "manages"
 ```
 
 ## Sadeleştirme Değişiklikleri
