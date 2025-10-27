@@ -275,35 +275,35 @@ classDiagram
     %% CORE BUSINESS RELATIONSHIPS (Simplified and Clear)
     
     %% User Relationships
-    User ||--o{ Project : creates
-    User ||--o{ Bid : places
-    User ||--o{ ProjectTask : assigned_to
-    User ||--o{ Transaction : pays_receives
-    User ||--o{ Message : sends_receives
-    User ||--o{ Notification : receives
+    User ||--o{ Project
+    User ||--o{ Bid
+    User ||--o{ ProjectTask
+    User ||--o{ Transaction
+    User ||--o{ Message
+    User ||--o{ Notification
     
     %% Project Relationships
-    Project ||--o{ Bid : receives
-    Project ||--o{ ProjectTask : contains
-    Project ||--o{ Message : has_messages
-    Project ||--o{ Review : has_reviews
-    Project ||--o{ Attachment : has_files
-    Project ||--o{ Transaction : generates
-    Project }o--|| Category : belongs_to
-    Project }o--|| PaymentMethod : uses
-    Project }o--o| Bid : accepts
+    Project ||--o{ Bid
+    Project ||--o{ ProjectTask
+    Project ||--o{ Message
+    Project ||--o{ Review
+    Project ||--o{ Attachment
+    Project ||--o{ Transaction
+    Project }o--|| Category
+    Project }o--|| PaymentMethod
+    Project }o--o| Bid
     
     %% Task and Milestone Relationships
-    ProjectTask ||--o{ MilestonePayment : has_milestones
-    MilestonePayment ||--o{ Transaction : creates
+    ProjectTask ||--o{ MilestonePayment
+    MilestonePayment ||--o{ Transaction
     
     %% Message Relationships
-    Message ||--o{ Attachment : has_attachments
+    Message ||--o{ Attachment
     
     %% Admin Service Dependencies
-    AdminService ..> User : manages
-    AdminService ..> Project : monitors
-    AdminService ..> Category : manages
+    AdminService ..> User
+    AdminService ..> Project
+    AdminService ..> Category
 ```
 
 ## Sadeleştirme Değişiklikleri
