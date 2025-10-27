@@ -259,7 +259,7 @@ classDiagram
 
     %% FREELANCER PLATFORM BUSINESS RELATIONSHIPS WITH CARDINALITY
     
-    %% User Core Relationships (1:n)
+    %% User Relationships (1:n)
     User --> Project
     User --> Bid
     User --> ProjectTask
@@ -268,7 +268,7 @@ classDiagram
     User --> Notification
     User --> Review
     
-    %% Project Core Relationships
+    %% Project Relationships
     Project --> Bid
     Project --> ProjectTask
     Project --> Message
@@ -277,7 +277,6 @@ classDiagram
     Project --> Transaction
     Project --> Category
     Project --> PaymentMethod
-    Project --> Bid
     Project --> User
     
     %% Task and Milestone Relationships
@@ -309,46 +308,48 @@ classDiagram
 4. **Enum İlişkileri Basitleştirildi:** Enum'larla entity'ler arasındaki ilişkiler sadeleştirildi
 5. **Çoktan Çok İlişkiler:** User ↔ Review ilişkisi kaldırıldı, sadece Project üzerinden yönetiliyor
 
-### 📋 Freelancer Platform İlişki Analizi:
+### 📋 Freelancer Platform İlişki Analizi (Detaylı):
 
-#### 🏢 İşveren (Employer) İlişkileri:
-- **User → Project (1:n):** Bir işveren birden fazla proje oluşturabilir
-- **User → Message (1:n):** İşveren projeler hakkında mesajlaşabilir
-- **User → Transaction (1:n):** İşveren ödemeler yapar
-- **User → Review (1:n):** İşveren freelancer'ları değerlendirir
+#### 🔗 **User Entity İlişkileri (1:n):**
+- **User → Project:** Bir kullanıcı (işveren) birden fazla proje oluşturabilir
+- **User → Bid:** Bir kullanıcı (freelancer) birden fazla projeye teklif verebilir
+- **User → ProjectTask:** Bir kullanıcıya birden fazla görev atanabilir
+- **User → Transaction:** Bir kullanıcı birden fazla ödeme yapabilir/alabilir
+- **User → Message:** Bir kullanıcı birden fazla mesaj gönderebilir/alabilir
+- **User → Notification:** Bir kullanıcı birden fazla bildirim alabilir
+- **User → Review:** Bir kullanıcı birden fazla değerlendirme yapabilir/alabilir
 
-#### 💼 Freelancer İlişkileri:
-- **User → Bid (1:n):** Bir freelancer birden fazla projeye teklif verebilir
-- **User → ProjectTask (1:n):** Freelancer'a birden fazla görev atanabilir
-- **User → Message (1:n):** Freelancer projeler hakkında mesajlaşabilir
-- **User → Transaction (1:n):** Freelancer ödemeler alır
-- **User → Review (1:n):** Freelancer işverenleri değerlendirir
-
-#### 📋 Proje Yaşam Döngüsü İlişkileri:
+#### 🔗 **Project Entity İlişkileri:**
 - **Project → Bid (1:n):** Bir projeye birden fazla freelancer teklif verebilir
-- **Project → ProjectTask (1:n):** Proje birden fazla görev içerebilir
-- **Project → Message (1:n):** Proje hakkında mesajlaşma yapılabilir
-- **Project → Review (1:n):** Proje tamamlandıktan sonra değerlendirme yapılabilir
-- **Project → Attachment (1:n):** Projeye dosya eklenebilir
-- **Project → Transaction (1:n):** Proje için ödemeler yapılabilir
-- **Project → Category (n:1):** Proje bir kategoriye ait olmalı
-- **Project → PaymentMethod (n:1):** Proje bir ödeme yöntemi kullanmalı
-- **Project → Bid (1:1):** Proje sadece bir teklifi kabul edebilir
-- **Project → User (n:1):** Proje bir freelancer'a atanır
+- **Project → ProjectTask (1:n):** Bir projede birden fazla görev olabilir
+- **Project → Message (1:n):** Bir proje hakkında birden fazla mesajlaşma yapılabilir
+- **Project → Review (1:n):** Bir proje hakkında birden fazla değerlendirme yapılabilir
+- **Project → Attachment (1:n):** Bir projede birden fazla dosya olabilir
+- **Project → Transaction (1:n):** Bir proje için birden fazla ödeme yapılabilir
+- **Project → Category (n:1):** Bir proje sadece bir kategoriye ait olabilir
+- **Project → PaymentMethod (n:1):** Bir proje sadece bir ödeme yöntemi kullanabilir
+- **Project → User (n:1):** Bir proje sadece bir freelancer'a atanabilir
 
-#### ⚙️ Görev ve Ödeme İlişkileri:
-- **ProjectTask → MilestonePayment (1:n):** Görev birden fazla milestone'a sahip olabilir
-- **ProjectTask → User (n:1):** Görev bir kullanıcıya atanır
-- **MilestonePayment → Transaction (1:n):** Milestone için ödeme yapılabilir
+#### 🔗 **ProjectTask Entity İlişkileri:**
+- **ProjectTask → MilestonePayment (1:n):** Bir görevde birden fazla milestone olabilir
+- **ProjectTask → User (n:1):** Bir görev sadece bir kullanıcıya atanabilir
 
-#### 💬 Mesajlaşma İlişkileri:
-- **Message → Attachment (1:n):** Mesajda dosya paylaşılabilir
-- **Message → Project (n:1):** Mesaj bir projeye ait olmalı
+#### 🔗 **MilestonePayment Entity İlişkileri:**
+- **MilestonePayment → Transaction (1:n):** Bir milestone için birden fazla ödeme yapılabilir
 
-#### ⭐ Değerlendirme İlişkileri:
-- **Review → Project (n:1):** Değerlendirme bir proje hakkında yapılır
-- **Review → User (n:1):** Değerlendirme bir kullanıcı tarafından yapılır
-- **Review → User (n:1):** Değerlendirme bir kullanıcıya yapılır
+#### 🔗 **Message Entity İlişkileri:**
+- **Message → Attachment (1:n):** Bir mesajda birden fazla dosya paylaşılabilir
+- **Message → Project (n:1):** Bir mesaj sadece bir projeye ait olabilir
+
+#### 🔗 **Review Entity İlişkileri:**
+- **Review → Project (n:1):** Bir değerlendirme sadece bir proje hakkında yapılabilir
+- **Review → User (n:1):** Bir değerlendirme sadece bir kullanıcı tarafından yapılabilir
+- **Review → User (n:1):** Bir değerlendirme sadece bir kullanıcıya yapılabilir
+
+#### 🔗 **AdminService Dependencies:**
+- **AdminService → User:** Admin kullanıcıları yönetebilir
+- **AdminService → Project:** Admin projeleri izleyebilir
+- **AdminService → Category:** Admin kategorileri yönetebilir
 
 ### 🔧 Teknik Notlar:
 
