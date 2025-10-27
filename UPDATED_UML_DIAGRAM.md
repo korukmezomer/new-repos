@@ -260,42 +260,42 @@ classDiagram
     %% FREELANCER PLATFORM BUSINESS RELATIONSHIPS WITH CARDINALITY
     
     %% User Relationships (1:n)
-    User --> Project : 1:n
-    User --> Bid : 1:n
-    User --> ProjectTask : 1:n
-    User --> Transaction : 1:n
-    User --> Message : 1:n
-    User --> Notification : 1:n
-    User --> Review : 1:n
+    User --> Project
+    User --> Bid
+    User --> ProjectTask
+    User --> Transaction
+    User --> Message
+    User --> Notification
+    User --> Review
     
     %% Project Relationships
-    Project --> Bid : 1:n
-    Project --> ProjectTask : 1:n
-    Project --> Message : 1:n
-    Project --> Review : 1:n
-    Project --> Attachment : 1:n
-    Project --> Transaction : 1:n
-    Project --> Category : n:1
-    Project --> PaymentMethod : n:1
-    Project --> User : n:1
+    Project --> Bid
+    Project --> ProjectTask
+    Project --> Message
+    Project --> Review
+    Project --> Attachment
+    Project --> Transaction
+    Project --> Category
+    Project --> PaymentMethod
+    Project --> User
     
     %% Task and Milestone Relationships
-    ProjectTask --> MilestonePayment : 1:n
-    ProjectTask --> User : n:1
-    MilestonePayment --> Transaction : 1:n
+    ProjectTask --> MilestonePayment
+    ProjectTask --> User
+    MilestonePayment --> Transaction
     
     %% Message Relationships
-    Message --> Attachment : 1:n
-    Message --> Project : n:1
+    Message --> Attachment
+    Message --> Project
     
     %% Review Relationships
-    Review --> Project : n:1
-    Review --> User : n:1
+    Review --> Project
+    Review --> User
     
     %% Admin Service Dependencies
-    AdminService ..> User : manages
-    AdminService ..> Project : monitors
-    AdminService ..> Category : manages
+    AdminService ..> User
+    AdminService ..> Project
+    AdminService ..> Category
 ```
 
 ## Sadeleştirme Değişiklikleri
@@ -308,16 +308,16 @@ classDiagram
 4. **Enum İlişkileri Basitleştirildi:** Enum'larla entity'ler arasındaki ilişkiler sadeleştirildi
 5. **Çoktan Çok İlişkiler:** User ↔ Review ilişkisi kaldırıldı, sadece Project üzerinden yönetiliyor
 
-### 📋 Freelancer Platform İlişki Analizi (Detaylı):
+### 📋 Freelancer Platform İlişki Analizi (Cardinality Detayları):
 
 #### 🔗 **User Entity İlişkileri (1:n):**
-- **User → Project:** Bir kullanıcı (işveren) birden fazla proje oluşturabilir
-- **User → Bid:** Bir kullanıcı (freelancer) birden fazla projeye teklif verebilir
-- **User → ProjectTask:** Bir kullanıcıya birden fazla görev atanabilir
-- **User → Transaction:** Bir kullanıcı birden fazla ödeme yapabilir/alabilir
-- **User → Message:** Bir kullanıcı birden fazla mesaj gönderebilir/alabilir
-- **User → Notification:** Bir kullanıcı birden fazla bildirim alabilir
-- **User → Review:** Bir kullanıcı birden fazla değerlendirme yapabilir/alabilir
+- **User → Project (1:n):** Bir kullanıcı (işveren) birden fazla proje oluşturabilir
+- **User → Bid (1:n):** Bir kullanıcı (freelancer) birden fazla projeye teklif verebilir
+- **User → ProjectTask (1:n):** Bir kullanıcıya birden fazla görev atanabilir
+- **User → Transaction (1:n):** Bir kullanıcı birden fazla ödeme yapabilir/alabilir
+- **User → Message (1:n):** Bir kullanıcı birden fazla mesaj gönderebilir/alabilir
+- **User → Notification (1:n):** Bir kullanıcı birden fazla bildirim alabilir
+- **User → Review (1:n):** Bir kullanıcı birden fazla değerlendirme yapabilir/alabilir
 
 #### 🔗 **Project Entity İlişkileri:**
 - **Project → Bid (1:n):** Bir projeye birden fazla freelancer teklif verebilir
