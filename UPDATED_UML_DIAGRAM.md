@@ -275,30 +275,30 @@ classDiagram
     %% CORE BUSINESS RELATIONSHIPS (Simplified and Clear)
     
     %% User Relationships
-    User ||--o{ Project
-    User ||--o{ Bid
-    User ||--o{ ProjectTask
-    User ||--o{ Transaction
-    User ||--o{ Message
-    User ||--o{ Notification
+    User --> Project
+    User --> Bid
+    User --> ProjectTask
+    User --> Transaction
+    User --> Message
+    User --> Notification
     
     %% Project Relationships
-    Project ||--o{ Bid
-    Project ||--o{ ProjectTask
-    Project ||--o{ Message
-    Project ||--o{ Review
-    Project ||--o{ Attachment
-    Project ||--o{ Transaction
-    Project }o--|| Category
-    Project }o--|| PaymentMethod
-    Project }o--o| Bid
+    Project --> Bid
+    Project --> ProjectTask
+    Project --> Message
+    Project --> Review
+    Project --> Attachment
+    Project --> Transaction
+    Project --> Category
+    Project --> PaymentMethod
+    Project --> Bid
     
     %% Task and Milestone Relationships
-    ProjectTask ||--o{ MilestonePayment
-    MilestonePayment ||--o{ Transaction
+    ProjectTask --> MilestonePayment
+    MilestonePayment --> Transaction
     
     %% Message Relationships
-    Message ||--o{ Attachment
+    Message --> Attachment
     
     %% Admin Service Dependencies
     AdminService ..> User
