@@ -247,22 +247,7 @@ classDiagram
         COMMISSION
     }
 
-    %% INHERITANCE - BaseEntity inheritance moved to Project top corner
-    BaseEntity <|-- User
-    BaseEntity <|-- Project
-    BaseEntity <|-- Category
-    BaseEntity <|-- Bid
-    BaseEntity <|-- ProjectTask
-    BaseEntity <|-- PaymentMethod
-    BaseEntity <|-- MilestonePayment
-    BaseEntity <|-- Transaction
-    BaseEntity <|-- Message
-    BaseEntity <|-- Review
-    BaseEntity <|-- Notification
-    BaseEntity <|-- Attachment
-    BaseEntity <|-- AuditLog
-
-    %% ENTITY - ENUM RELATIONSHIPS (Simplified)
+    %% ENTITY - ENUM RELATIONSHIPS
     User --> UserRole
     Project --> ProjectStatus
     Bid --> BidStatus
@@ -272,9 +257,9 @@ classDiagram
     Transaction --> TransactionStatus
     Transaction --> TransactionType
 
-    %% CORE BUSINESS RELATIONSHIPS (Simplified and Clear)
+    %% CORE BUSINESS RELATIONSHIPS WITH CARDINALITY
     
-    %% User Relationships
+    %% User Relationships (1:n)
     User --> Project
     User --> Bid
     User --> ProjectTask
@@ -310,28 +295,37 @@ classDiagram
 
 ### ✅ Yapılan İyileştirmeler:
 
-1. **BaseEntity Kalıtım Okları:** Tüm BaseEntity kalıtım okları Project sınıfının üst köşesine taşındı
-2. **İlişki Okları Sadeleştirildi:** Karmaşık çoklu oklar yerine tek, net oklar kullanıldı
-3. **İlişki Yönleri Netleştirildi:** Her ilişkinin yönü açık şekilde belirtildi
+1. **BaseEntity Tablo Olarak Gösterildi:** BaseEntity artık inheritance okları olmadan normal bir tablo olarak duruyor
+2. **İlişki Cardinality Bilgileri:** Her ilişkinin cardinality'si açıklama bölümünde detaylı şekilde belirtildi
+3. **İlişki Okları Sadeleştirildi:** Karmaşık syntax yerine basit `-->` okları kullanıldı
 4. **Enum İlişkileri Basitleştirildi:** Enum'larla entity'ler arasındaki ilişkiler sadeleştirildi
 5. **Çoktan Çok İlişkiler:** User ↔ Review ilişkisi kaldırıldı, sadece Project üzerinden yönetiliyor
 
-### 📋 İlişki Açıklamaları:
+### 📋 İlişki Cardinality Detayları:
 
-#### Bire Bir İlişkiler:
+#### Bire Bir İlişkiler (1:1):
 - **Project → Category:** Bir proje bir kategoriye ait
 - **Project → PaymentMethod:** Bir proje bir ödeme yöntemi kullanır
 - **Project → Bid:** Bir proje en fazla bir kabul edilen teklife sahip
 
-#### Bire Çok İlişkiler:
+#### Bire Çok İlişkiler (1:n):
 - **User → Project:** Bir kullanıcı birden fazla proje oluşturabilir
 - **User → Bid:** Bir kullanıcı birden fazla teklif yapabilir
+- **User → ProjectTask:** Bir kullanıcıya birden fazla görev atanabilir
+- **User → Transaction:** Bir kullanıcı birden fazla işlem yapabilir/alabilir
+- **User → Message:** Bir kullanıcı birden fazla mesaj gönderebilir/alabilir
+- **User → Notification:** Bir kullanıcı birden fazla bildirim alabilir
 - **Project → Bid:** Bir projeye birden fazla teklif verilebilir
-- **Project → Task:** Bir projede birden fazla görev olabilir
+- **Project → ProjectTask:** Bir projede birden fazla görev olabilir
 - **Project → Message:** Bir projeye birden fazla mesaj gönderilebilir
 - **Project → Review:** Bir proje birden fazla değerlendirme alabilir
+- **Project → Attachment:** Bir projede birden fazla dosya olabilir
+- **Project → Transaction:** Bir proje birden fazla işlem oluşturabilir
+- **ProjectTask → MilestonePayment:** Bir görevde birden fazla milestone olabilir
+- **MilestonePayment → Transaction:** Bir milestone birden fazla işlem oluşturabilir
+- **Message → Attachment:** Bir mesajda birden fazla ek dosya olabilir
 
-#### Çoka Çok İlişkiler:
+#### Çoka Çok İlişkiler (n:n):
 - **User ↔ Review:** Kullanıcılar birbirlerini değerlendirebilir (Project üzerinden)
 
 ### 🔧 Teknik Notlar:
