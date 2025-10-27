@@ -275,35 +275,35 @@ classDiagram
     %% CORE BUSINESS RELATIONSHIPS (Simplified and Clear)
     
     %% User Relationships
-    User ||--o{ Project : "creates"
-    User ||--o{ Bid : "places"
-    User ||--o{ ProjectTask : "assigned to"
-    User ||--o{ Transaction : "pays/receives"
-    User ||--o{ Message : "sends/receives"
-    User ||--o{ Notification : "receives"
+    User ||--o{ Project : creates
+    User ||--o{ Bid : places
+    User ||--o{ ProjectTask : assigned_to
+    User ||--o{ Transaction : pays_receives
+    User ||--o{ Message : sends_receives
+    User ||--o{ Notification : receives
     
     %% Project Relationships
-    Project ||--o{ Bid : "receives"
-    Project ||--o{ ProjectTask : "contains"
-    Project ||--o{ Message : "has messages"
-    Project ||--o{ Review : "has reviews"
-    Project ||--o{ Attachment : "has files"
-    Project ||--o{ Transaction : "generates"
-    Project }o--|| Category : "belongs to"
-    Project }o--|| PaymentMethod : "uses"
-    Project }o--o| Bid : "accepts"
+    Project ||--o{ Bid : receives
+    Project ||--o{ ProjectTask : contains
+    Project ||--o{ Message : has_messages
+    Project ||--o{ Review : has_reviews
+    Project ||--o{ Attachment : has_files
+    Project ||--o{ Transaction : generates
+    Project }o--|| Category : belongs_to
+    Project }o--|| PaymentMethod : uses
+    Project }o--o| Bid : accepts
     
     %% Task and Milestone Relationships
-    ProjectTask ||--o{ MilestonePayment : "has milestones"
-    MilestonePayment ||--o{ Transaction : "creates"
+    ProjectTask ||--o{ MilestonePayment : has_milestones
+    MilestonePayment ||--o{ Transaction : creates
     
     %% Message Relationships
-    Message ||--o{ Attachment : "has attachments"
+    Message ||--o{ Attachment : has_attachments
     
     %% Admin Service Dependencies
-    AdminService ..> User : "manages"
-    AdminService ..> Project : "monitors"
-    AdminService ..> Category : "manages"
+    AdminService ..> User : manages
+    AdminService ..> Project : monitors
+    AdminService ..> Category : manages
 ```
 
 ## Sadeleştirme Değişiklikleri
